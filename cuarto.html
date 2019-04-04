@@ -1,12 +1,28 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        *{ margin:0; padding:0;}
+        body {height:100%; width:100%; overflow:hidden;}
+        #menu { top: 1rem; right: 1rem; position: fixed; z-index:9999; }
+    </style>
+    <title>p5.js</title>
+</head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link href="style.css" rel="stylesheet">
 </head>
 <body>
+<select id="menu" onchange="location=this.value;">
+        <option value="index.html">Primero</option>
+        <option value="segundo.html">Segundo</option>
+        <option value="tercero.html">Tercero</option>
+        <option value="cuarto.html" selected>Cuarto</option>
+</select>
 <!--desde aquí el menú de navegación-->
 <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white">
 <div class="container">
