@@ -30,7 +30,6 @@
             createCanvas(windowWidth,windowHeight).parent("aqui");
             frameRate(12);
         }
-
         function draw(){
             background(225);
             if (keyIsPressed === true) 
@@ -48,6 +47,10 @@
             		triangle(x, y, x+20, y+azar, x-20, y+azar);
 				}
         	}
+            textStyle(BOLD);
+            textSize(20);
+            text('Press Any Key',(windowWidth/2)-100,(windowHeight/2));
+            
         }
         
         
