@@ -28,7 +28,6 @@
         function preload() {
             data = loadJSON('https://api.myjson.com/bins/em6yg');
         }
-
  
         function setup() {
             createCanvas(windowWidth,windowHeight).parent("aqui");
@@ -53,7 +52,6 @@
                 text(data[n].peli, width/8*(n+1),(height/2)); //escribe pelicula.
             }
         }
-
         
         function windowResized(){
             resizeCanvas(windowWidth, windowHeight);
