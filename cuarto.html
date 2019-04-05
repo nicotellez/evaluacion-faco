@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<head>
+    <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
@@ -14,75 +14,119 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link href="style.css" rel="stylesheet">
+<title>Viento</title>
+<style>
+        body{
+            background: lightblue;
+    </style>
 </head>
 <body>
-<select id="menu" onchange="location=this.value;">
+    <select id="menu" onchange="location=this.value;">
         <option value="index.html">Primero</option>
         <option value="segundo.html">Segundo</option>
         <option value="tercero.html">Tercero</option>
         <option value="cuarto.html" selected>Cuarto</option>
-</select>
-<!--desde aquí el menú de navegación-->
-<nav class="navbar navbar-expand-md navbar-light fixed-top bg-white">
+    </select>
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-lightblue">
 <div class="container">
-	<a class="navbar-brand" href="index.html">Valor del Euro</a>
+    <b><a  class="navbar-brand" >Viento en ciudades de Japón</a></b>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 	<span class="navbar-toggler-icon"></span>
 	</button>
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 	</div>
 </div>
 </nav>	
-<!--hasta aquí el menú de navegación-->
 <div class="container pt-5">
-<div class="row justify-content-center">
-		<div class="col">
-            <h1>Hoy el euro cuesta €<b><span>………</span></b></h1>
-		</div>
+	<div class="row justify-content-center">
+		<div class="col-sm-8">
+			<div class="input-group mb-3">
+				<select class="custom-select" id="city">
+				<option selected>Escoge una ciudad</option>
+				<option value="1850147">Tokyo, JP</option>
+				<option value="1853909">Osaka, JP</option>    
+				<option value="1862415">Hiroshima, JP, CL</option>
+				<option value="1851632">Shuzenji, JP</option>
+                <option value="1855612">Nara, JP</option>    
+				<option value="2130404">Ebetsu, JP</option>
+				<option value="1856177">Nagasaki, JP</option>
+				<option value="6822146">Onojo, JP</option>
+                <option value="1857470">Matsuto, JP</option>    
+                <option value="1863357">Hakone, JP</option>
+				<option value="2111149">Sendai, JP</option>
+				<option value="1860827">Kagoshima, JP</option>
+				<option value="1856215">Nagano, JP</option>
+				</select>
+				<div class="input-group-append">
+					<button id="submit">submit</button>
+				</div>
 	</div>
 </div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col pt-5" id="here"></div>
+	</div>
+</div>
+        <script type='text/javascript' src='relative/path/to/your/p5.dom.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
 <script>
-var data;
-var n;
-function preload() {
-	data = loadJSON('https://mindicador.cl/api/euro');
-}
+var input;
+//Obtenga su apiKey en https://openweathermap.org/
+var apiKey = '359b7120be24396484465a4cd6f0482f';
+let wind;
+let position;
 function setup() {
-	n = 14 //data.serie.length;
-	console.log(n);
-	console.log(data);
-	var canvas = createCanvas(windowWidth, windowHeight);
-	canvas.position(0,0);
-	canvas.style('z-index','-1');
-	noLoop();
-	document.getElementsByTagName("span")[1].innerHTML = data.serie[0].valor;
+	var button = select('#submit');
+	button.mousePressed(estaCiudad);
+	input = select('#city');
+    position = createVector(width/2, height/2);
+  wind = createVector();
+}
+function estaCiudad() {
+	var laURL = 'https://api.openweathermap.org/data/2.5/weather?id=' + input.value() + '&units=metric&APPID=' + '359b7120be24396484465a4cd6f0482f';
+	loadJSON(laURL, gotData);
 }
 function draw() {
-	fill(255);
-	background(255);
-	translate(40,0);
-	noStroke();
-	for(var i = 0; i < n; i++){
-		var x = (windowWidth/n)*i;
-		var y = data.serie[i].valor;
-		var mapeado = map(y,0,1000,windowHeight*1.5,0);
-		if (data.serie[i].valor < 605){
-            fill(255,0,0);
-		}else{
-            fill(0);
-		}
-		textSize(13);
-		textAlign(CENTER);
-		text("€ "+data.serie[i].valor,x, 400);
-		textSize(10);
-		text(data.serie[i].fecha.substring(5,10),x, (height/2)+320);
-		vertex(x,mapeado);
-        fill(color(50,40,255));
-        rect(x-25,(height/2)+300,50,(-mapeado));
-	}
+  push();
+  translate(32, height - 32);
+  // Rotate by the wind's angle
+  rotate(wind.heading() + PI/2);
+  noStroke();
+  fill(255);
+  ellipse(0, 0, 48, 48);
+
+  stroke(45, 123, 182);
+  strokeWeight(3);
+  line(0, -16, 0, 16);
+
+  noStroke();
+  fill(45, 123, 182);
+  triangle(0, -18, -6, -10, 6, -10);
+  pop();
+  position.add(wind);
+  noStroke();
+  fill(color(0,0,255));
+  ellipse(position.x, position.y, 16, 16);
+
+  if (position.x > width)  position.x = 0;
+  if (position.x < 0)      position.x = width;
+  if (position.y > height) position.y = 0;
+  if (position.y < 0)      position.y = height;
+}
+function gotData(data) {
+	console.log(data);
+	var canvas = createCanvas(windowWidth, windowHeight);
+    var angle=data.wind.deg;
+	canvas.position(0,0);
+	canvas.style('z-index','-1');
+	background('lightblue')
+    textAlign(CENTER);
+	textSize(300);
+	textSize(24);
+	text(data.name + ', ' + data.sys.country, windowWidth/2, windowHeight/2+230);
+	textSize(16);
+	text('Viento: ' + data.wind.speed + ' km/hr, ' + angle + 'º', windowWidth/2, windowHeight/2+200);
+    wind = p5.Vector.fromAngle(angle);
 }
 </script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
